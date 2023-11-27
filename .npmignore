@@ -1,0 +1,6 @@
+.github/
+src/
+coverage/
+.eslingignore
+.prettierrc.js
+vitest.config.mjs

@@ -1,0 +1,24 @@
+{
+  "name": "cancant",
+  "version": "0.0.0-semantically-released",
+  "description": "Authorization for users",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "build": "tsc",
+    "lint": "eslint src/**"
+  },
+  "author": "Adam Laycock",
+  "license": "MIT",
+  "devDependencies": {
+    "@arcath/utils": "^3.14.1",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "@vitest/coverage-istanbul": "^0.34.6",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2",
+    "vitest": "^0.34.6"
+  }
+}

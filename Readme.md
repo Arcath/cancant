@@ -1,5 +1,7 @@
 # CanCant
 
+[![validate](https://github.com/Arcath/cancant/actions/workflows/main.yml/badge.svg)](https://github.com/Arcath/cancant/actions/workflows/main.yml)
+
 CanCant is a RBAC permissions system in the style of
 [easy-rbac](https://github.com/DeadAlready/easy-rbac) that supports wildcards
 and _can't/deny_ operations.

@@ -91,3 +91,37 @@ test('should support cant', async () => {
     false
   )
 })
+
+test('should break out arrays on names', async () => {
+  const {can} = canCant({
+    user: {
+      can: [
+        {
+          name: ['user:*', 'note:*'],
+          when: async ({
+            userId,
+            targetId
+          }: {
+            userId: number
+            targetId: number
+          }) => {
+            return userId === targetId
+          }
+        }
+      ],
+      cant: [
+        {
+          name: ['admin:*', 'user:destory'],
+          when: async () => {
+            return true
+          }
+        },
+        'auth:*'
+      ]
+    }
+  })
+
+  expect(await can('user', 'user:update', {userId: 1, targetId: 1})).toBe(true)
+  expect(await can('user', 'note:update', {userId: 1, targetId: 1})).toBe(true)
+  expect(await can('user', 'admin:dashboard')).toBe(false)
+})

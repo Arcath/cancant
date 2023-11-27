@@ -3,7 +3,7 @@ import {globToRegex, isGlob, keys} from './utils'
 // Params could be anything, you could just pass a string if you wanted to.
 // eslint-disable-next-line
 export type WhenFunction = (params: any) => Promise<boolean>
-export type Can = string | {name: string; when: WhenFunction}
+export type Can = string | {name: string | string[]; when: WhenFunction}
 
 export type ACL<Roles extends string> = {
   [Role in Roles]: ACLEntry<Roles>
@@ -45,11 +45,13 @@ export const canCant = <Roles extends string>(data: ACL<Roles>) => {
       } else {
         const {name, when} = entry
 
-        roleObject.can[name] = when
+        ;([] as string[]).concat(name).forEach(n => {
+          roleObject.can[n] = when
 
-        if (isGlob(name)) {
-          roleObject.canGlob.push({name: globToRegex(name), original: name})
-        }
+          if (isGlob(n)) {
+            roleObject.canGlob.push({name: globToRegex(n), original: n})
+          }
+        })
       }
     })
 
@@ -67,11 +69,13 @@ export const canCant = <Roles extends string>(data: ACL<Roles>) => {
         } else {
           const {name, when} = entry
 
-          roleObject.cant[name] = when
+          ;([] as string[]).concat(name).forEach(n => {
+            roleObject.cant[n] = when
 
-          if (isGlob(name)) {
-            roleObject.cantGlob.push({name: globToRegex(name), original: name})
-          }
+            if (isGlob(n)) {
+              roleObject.cantGlob.push({name: globToRegex(n), original: n})
+            }
+          })
         }
       })
     }

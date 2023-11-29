@@ -125,9 +125,23 @@ export const canCant = <Roles extends string>(data: ACL<Roles>) => {
 
   const canFn = async (
     role: string,
-    operation: string,
+    operation: string | string[],
     params?: object
   ): Promise<boolean> => {
+    if (typeof operation !== 'string') {
+      const subCans = operation.map(op => can(role, op, params))
+
+      const subResults = await Promise.all(subCans)
+
+      return subResults.reduce((c, v) => {
+        if (!c) {
+          return false
+        }
+
+        return v
+      }, true)
+    }
+
     if (!acl[role]) {
       return false
     }

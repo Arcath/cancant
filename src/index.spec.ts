@@ -150,3 +150,15 @@ test('it should memoize the can function', async () => {
   expect(await can('user', 'user:create')).toBe(true)
   expect(count).toBe(1)
 })
+
+test('should take an array of operatoins', async () => {
+  const {can} = canCant({
+    user: {
+      can: ['login', 'dashboard', 'logout']
+    }
+  })
+
+  expect(await can('user', ['login', 'dashboard'])).toBe(true)
+  expect(await can('user', ['login', 'user:update'])).toBe(false)
+  expect(await can('user', ['user:create', 'user:update'])).toBe(false)
+})

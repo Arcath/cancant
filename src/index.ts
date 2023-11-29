@@ -1,3 +1,5 @@
+import memoize from 'memoizee'
+
 import {globToRegex, isGlob, keys} from './utils'
 
 // Params could be anything, you could just pass a string if you wanted to.
@@ -121,7 +123,7 @@ export const canCant = <Roles extends string>(data: ACL<Roles>) => {
     }
   }
 
-  const can = async (
+  const canFn = async (
     role: string,
     operation: string,
     params?: object
@@ -174,6 +176,8 @@ export const canCant = <Roles extends string>(data: ACL<Roles>) => {
 
     return false
   }
+
+  const can = memoize(canFn, {promise: true})
 
   return {can}
 }

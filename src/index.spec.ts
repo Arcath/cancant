@@ -125,3 +125,28 @@ test('should break out arrays on names', async () => {
   expect(await can('user', 'note:update', {userId: 1, targetId: 1})).toBe(true)
   expect(await can('user', 'admin:dashboard')).toBe(false)
 })
+
+test('it should memoize the can function', async () => {
+  let count = 0
+
+  const {can} = canCant({
+    user: {
+      can: [
+        {
+          name: 'user:*',
+          when: async () => {
+            count += 1
+
+            return true
+          }
+        }
+      ]
+    }
+  })
+
+  expect(count).toBe(0)
+  expect(await can('user', 'user:create')).toBe(true)
+  expect(count).toBe(1)
+  expect(await can('user', 'user:create')).toBe(true)
+  expect(count).toBe(1)
+})
